@@ -18,7 +18,7 @@ This repository contains the official implementation of the following paper:
 > <sup>1</sup>Johns Hopkins University <br>
 > <sup>2</sup>Adobe Research <br>
 
-[\[Paper\]](https://kfmei.page/shadow-diffusion/instance_shadow.pdf) [\[Code\]](https://github.com/MKFMIKU/Instance-Shadow-Diffusion) [\[Pretrained Model\]](#pretrain-models) [\[Visual Results\]]() [\[Demo Video 🔥\]](https://www.youtube.com/watch?v=WvWBoOZR208)
+[\[Paper\]](https://kfmei.page/shadow-diffusion/instance_shadow.pdf) [\[Code\]](https://github.com/MKFMIKU/Instance-Shadow-Diffusion) [\[Pretrained Model\]](#pretrain-models) [\[Visual Results\]]() [\[Demo Video 🔥\]](https://www.youtube.com/watch?v=WvWBoOZR208)  [\[Live Demo 🔥\]](https://huggingface.co/spaces/MKFMIKU/Instance-Shadow-Removal)
 
 ![](figs/instance_result.png)
 
