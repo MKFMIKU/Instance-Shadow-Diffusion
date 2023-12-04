@@ -20,7 +20,7 @@ This repository contains the official implementation of the following paper:
 
 [\[Paper\]](https://kfmei.page/shadow-diffusion/instance_shadow.pdf) [\[Code\]](https://github.com/MKFMIKU/Instance-Shadow-Diffusion) [\[Pretrained Model\]](#pretrain-models) [\[Visual Results\]]() [\[Demo Video 🔥\]](https://www.youtube.com/watch?v=WvWBoOZR208)
 
-> This is an non-offical implementation with pytorch
+![](figs/instance_result.png)
 
 ## Introduction of Our Work
 We propose the first instance-level shadow removal algorithm that can generating clear images or clear regions on shadow images (i.e. instance-level).
@@ -45,9 +45,8 @@ The table below are performance comparison with our method and the previous non-
 
 ## Detail Contents
 1. [Setup & Dataset](#setup--dataset)
-2. [Training](#Training)
-3. [Testing](#Testing)
-4. [Upscaling your own pictutres](#inferring-your-own-lr-pictures)
+2. [Training](#training)
+3. [Testing](#testing)
 5. [Results](#results)
 6. [Pretrain Models](#pretrain-models)
 7. [Citations](#citations)
@@ -105,17 +104,29 @@ We use the AISTD dataset for trainning the model. Random-crop augmentation is ap
     </td>
     <td> 540 shadow / mask / shadow_free pairs
     <br> 
-    <a href="https://www.cis.jhu.edu/~kmei1/publics/shadow/datasets/aistd_test.zip">[Download]</a> 
+    <a href="https://www.cis.jhu.edu/~kmei1/publics/shadow/datasets/istd_test.zip">[Download]</a> 
     </td>
   </tr>
   <tr>
+    <td>ISTD (full shadow)</td>
+    <td> (augmented patch) 26120 shadow / mask / shadow_free pairs
+    <br> 
+    <a href="https://www.cis.jhu.edu/~kmei1/publics/shadow/datasets/istd_train.zip">[Download]</a> 
+    </td>
+    </td>
+    <td> 540 shadow / mask / shadow_free pairs
+    <br> 
+    <a href="https://www.cis.jhu.edu/~kmei1/publics/shadow/datasets/aistd_test.zip">[Download]</a> 
+    </td>
+  </tr>
+  <!-- <tr>
     <td>SRD (full shadow)</td>
     <td>-</td>
     <td> 408 shadow / mask / shadow_free pairs
     <br>
     <a href="https://www.cis.jhu.edu/~kmei1/publics/shadow/datasets/srd_test.zip">[Download]</a>
     </td>
-  </tr>
+  </tr> -->
   <tr>
     <td>DeSOBA (instance shadow)</td>
     <td>-</td>
@@ -142,20 +153,46 @@ unzip aistd_test.zip && rm aistd_test.zip
 cd ..
 ```
 
-2. Follow the instructions below to train our model on full-shadow removal.
+You are expected to see the following file structres otherwise you need to manually rename those directory into the correct one.
+```bash
+$ tree ./data --filelimit 3
+
+./data
+├── aistd_test
+│   ├── mask  [540 entries exceeds filelimit, not opening dir]
+│   ├── shadow  [540 entries exceeds filelimit, not opening dir]
+│   └── shadow_free  [540 entries exceeds filelimit, not opening dir]
+└── aistd_train
+    ├── mask  [26120 entries exceeds filelimit, not opening dir]
+    ├── shadow  [26120 entries exceeds filelimit, not opening dir]
+    └── shadow_free  [26120 entries exceeds filelimit, not opening dir]
+
+9 directories, 0 files
+```
+
+2. Follow the instructions below to train our model on full-shadow removal. 
 
 ```bash
 NCCL_P2P_DISABLE=1 CUDA_VISIBLE_DEVICES=2,3,4,5,6,7,8,9 accelerate launch --multi_gpu shadow_aistd_train.py
 ```
 
-##  Testing
-It will generate the shadow-free images in the `experiments` directory and then calculate the PSNR values at the same time. 
+## Testing
+It will generate the shadow-free images in the `experiments` directory and then calculate the PSNR values at the same time. You will need to manually modify the checkpoint path in `accelerator.load_state('experiments/state_059999.bin')`.
 ```bash
 # Deshadow
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 accelerate launch --multi_gpu shadow_aistd_test.py
 ```
 
 For more detailed metrics calculation such as evaluating RMSE and SSIM in shadow region, non-shadow region, and all-images, please use `evaluation_scripts/aistd_mae_evaluation.ipynb` after generating deshadowed image.
+
+## Results
+- Our full-shadow removal results: <b> [AISTD](https://www.cis.jhu.edu/~kmei1/publics/shadow/results/aistd_ours.zip) | [ISTD](https://www.cis.jhu.edu/~kmei1/publics/shadow/results/istd_ours.zip) | [SRD](https://www.cis.jhu.edu/~kmei1/publics/shadow/results/srd_ours.zip) </b>
+
+- Our instance-level shadow removal results: <b>[DeSOBA](https://www.cis.jhu.edu/~kmei1/publics/shadow/results/desoba_ours.zip)</b>
+
+
+## Pretrain Models
+You can find our pretrained models in [here](https://www.cis.jhu.edu/~kmei1/publics/shadow/pretrained_models/).
 
 ## Citations
 You may want to cite:
@@ -166,3 +203,9 @@ You may want to cite:
   year={2024}
 }
 ```
+## License
+This code is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International](https://creativecommons.org/licenses/by-nc/4.0/) for non-commercial use only.
+Please note that any commercial use of this code requires formal permission prior to use.
+
+## Acknowledgement
+This detailed READEME is inspired by [SRFormer](https://github.com/HVision-NKU/SRFormer/blob/main/README.md).
