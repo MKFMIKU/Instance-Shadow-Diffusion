@@ -177,7 +177,7 @@ NCCL_P2P_DISABLE=1 CUDA_VISIBLE_DEVICES=2,3,4,5,6,7,8,9 accelerate launch --mult
 ```
 
 ## Testing
-It will generate the shadow-free images in the `experiments` directory and then calculate the PSNR values at the same time. You will need to manually modify the checkpoint path in `accelerator.load_state('experiments/state_059999.bin')`.
+It will generate the shadow-free images in the `experiments` directory and then calculate the PSNR values at the same time. You will need to manually modify the checkpoint path in `accelerator.load_state('experiments/state_244999.bin')`.
 ```bash
 # Deshadow
 NCCL_P2P_DISABLE=1 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 accelerate launch --multi_gpu shadow_aistd_test.py
