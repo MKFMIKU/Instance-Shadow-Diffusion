@@ -70,7 +70,7 @@ def main():
 
     model = DensePosteriorConditionalUNet(
         in_channels=3 + 3 + 1,
-        out_channels=3,
+        out_channels=6,
         model_channels=192,
         num_res_blocks=2,
         attention_resolutions=[8, 16, 32],
@@ -115,7 +115,7 @@ def main():
 
     eval_gaussian_diffusion = create_gaussian_diffusion(
         steps=1000,
-        learn_sigma=False,
+        learn_sigma=True,
         noise_schedule='linear',
         use_kl=False,
         timestep_respacing="ddim50",
@@ -126,7 +126,7 @@ def main():
         p2_k=1,
     )
 
-    accelerator.load_state('experiments/state_059999.bin')
+    accelerator.load_state('experiments/state_244999.bin')
 
     avg_psnr = []
     for i in tqdm(range(len(eval_dataset)), leave=True):

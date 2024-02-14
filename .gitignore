@@ -1,5 +1,6 @@
 # ignore experimnets
 experiments/
+.conda/
 
 # ignore dependencies
 envs/
